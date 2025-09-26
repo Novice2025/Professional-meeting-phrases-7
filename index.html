@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Expressions Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Application Structure Plan: The single-page application is structured for progressive learning and immediate practice. It starts with a comprehensive list of 25 executive-level expressions presented in styled cards, serving as the main educational content. Below this, two distinct interactive sections—a translation exercise and a matching game—allow users to test their understanding. This sequential design (Learn > Practice) facilitates a clear, guided user journey, while the self-contained nature of the page allows for easy review and reference. -->
+    <!-- Visualization & Content Choices: The core information is qualitative. To present this clearly, the expressions are contained in visually distinct cards. The interactive exercises use JavaScript to handle user input and provide feedback. A drag-and-drop mechanism is implemented for the matching activity to make the practice engaging and intuitive. No complex data visualizations are required. The choice to use vanilla JavaScript and simple HTML/CSS ensures a lightweight and highly performant application. No SVG or external images are used in this version, as they are not essential to the instructional goals. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 900px;
+            padding: 2rem;
+        }
+        .section {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e2e8f0;
+        }
+        .expression-card {
+            border-left: 4px solid #4f46e5;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .expression-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .interactive-card {
+            border: 1px solid #cbd5e1;
+            background-color: #f1f5f9;
+        }
+        .drag-item {
+            cursor: grab;
+        }
+        .drag-item.dragging {
+            opacity: 0.5;
+        }
+        .drop-target {
+            border: 2px dashed #94a3b8;
+        }
+        .drop-target.hovered {
+            border-color: #4f46e5;
+            background-color: #e0e7ff;
+        }
+        .correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+        }
+        .incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        .message-box {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            font-weight: 500;
+        }
+        .message-box.correct {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .message-box.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="message-box" id="message-box"></div>
+    <div class="container mx-auto">
+        <header class="text-center py-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">Executive Expressions Guide</h1>
+            <p class="mt-4 text-lg md:text-xl text-gray-600 font-light">Master the language of leadership for high-impact communication.</p>
+        </header>
+        <main class="space-y-12">
+            <section class="section">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Core Executive Expressions</h2>
+                <p class="text-gray-600 mb-8">Learn these high-impact phrases to articulate strategic concepts with clarity and authority.</p>
+                <!-- Expression Cards -->
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">1. To galvanize the team</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To inspire and motivate a group to take action toward a common goal.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "The new vision statement will **galvanize the team** and focus our collective effort."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Inspirar a equipe" ou "Mobilizar o grupo"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">2. To cascade information</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To disseminate information from the top of an organization down to all levels in a structured, hierarchical manner.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "The CEO will announce the new policy, and then we will **cascade the information** to all department heads."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Repassar a informação em cascata"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">3. To sunset a project</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To systematically phase out or retire a product, service, or project, typically at the end of its lifecycle.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "Given the shift in market demand, we've decided to **sunset** the outdated software platform."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Descontinuar um projeto" ou "Encerrar gradualmente"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">4. To granularize the data</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To break down high-level data into smaller, more specific components for a more detailed analysis.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "We need to **granularize the data** by region and customer type to pinpoint the source of the issue."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Detalhar os dados" ou "Analisar em um nível mais específico"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">5. To operationalize the strategy</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To turn a high-level plan or strategy into concrete, actionable steps and processes.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "Our next step is to **operationalize the strategy** by assigning tasks to each department."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Tornar a estratégia operacional" ou "Colocar a estratégia em prática"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">6. To gain traction</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To build momentum and support for an idea or project, showing that it is becoming successful or popular.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "The new product is starting to **gain traction** in the market after a successful launch campaign."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Ganhar força" ou "Conquistar apoio"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">7. To be in the weeds</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To be overly focused on minor, intricate details, losing sight of the broader objective or strategy.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "We're getting **in the weeds** with this discussion; let's step back and look at the bigger picture."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Estar atolado em detalhes" ou "Se perder nos pormenores"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">8. To run it up the flagpole</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To present a new idea or proposal to a superior or a group to see what they think of it.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "This is just a preliminary idea, but I wanted to **run it up the flagpole** with the leadership team."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Apresentar para aprovação" ou "Testar uma ideia"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">9. To right-size the workforce</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To adjust the number of employees to align with current business needs and financial realities.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "As we shift our focus to new markets, we may need to **right-size the workforce** in the R&D department."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Ajustar o tamanho da equipe" ou "Reestruturar o quadro de funcionários"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">10. A paradigm shift</p>
+                    <p class="mt-2"><strong>Scenario:</strong> A fundamental change in the basic concepts and practices of a discipline or field of study.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "The rise of AI in our industry represents a **paradigm shift** in how we develop our products."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Uma mudança de paradigma" ou "Uma transformação fundamental"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">11. To champion a cause</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To actively support and advocate for an idea, policy, or project, often as a key leader or sponsor.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "Our senior director will **champion this cause** to ensure it receives the necessary funding."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Defender uma causa" ou "Ser o porta-voz"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">12. To do a deep dive</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To thoroughly and comprehensively analyze a particular topic or set of data.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "Before we make a decision, let's **do a deep dive** into the market research."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Analisar em profundidade" ou "Aprofundar a análise"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">13. To give something the green light</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To grant permission or approval for a project or plan to proceed.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "The board has **given us the green light** to start the new marketing campaign."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Dar sinal verde" ou "Autorizar"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">14. To raise the bar</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To set a higher standard for quality, performance, or expectations.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "Our new product design will **raise the bar** for quality in the entire industry."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Elevar o padrão" ou "Aumentar a exigência"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">15. To be a game-changer</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To be a new development or idea that significantly changes the way a situation is handled or a field operates.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "This new technology will **be a game-changer** for how we manage our logistics."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Ser um divisor de águas" ou "Mudar as regras do jogo"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">16. To flesh out the details</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To add more substance, detail, and specific information to a plan or idea.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "We have the core concept, now we need to meet and **flesh out the details** of the implementation plan."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Detalhar" ou "Aprofundar os pormenores"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">17. To be siloed</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To be isolated from other departments or teams, leading to a lack of communication and collaboration.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "Our teams are too **siloed**; we need to improve cross-departmental communication."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Estar isolado" ou "Não ter comunicação entre áreas"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">18. To synergize</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To combine different efforts or resources so that their combined effect is greater than the sum of their individual effects.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "The marketing and sales teams will **synergize** to create a unified customer outreach strategy."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Criar sinergia" ou "Atuar em conjunto"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">19. To have bandwidth</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To have the capacity, time, or mental resources available to take on a new task or project.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "I'd love to help with that, but I don't **have the bandwidth** right now."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Ter capacidade" ou "Ter disponibilidade"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">20. To go the extra mile</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To do more than what is required or expected, often to ensure success or customer satisfaction.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "Our sales team is willing to **go the extra mile** to make sure our clients are satisfied."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Ir além do esperado" ou "Fazer um esforço extra"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">21. To streamline a process</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To make a process more efficient by simplifying or eliminating unnecessary steps.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "We need to **streamline the process** for approving new hires to reduce delays."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Otimizar um processo" ou "Tornar mais eficiente"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">22. To offload a task</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To delegate a task to someone else, often to reduce one's own workload.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "I need to **offload this task** to a junior analyst so I can focus on the budget."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Delegar uma tarefa" ou "Passar uma tarefa"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">23. To navigate a headwind</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To manage and overcome a difficult or adverse situation, such as a challenge, an obstacle, or opposition.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "The leadership team has been effective at **navigating the headwinds** of the recent economic downturn."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Superar uma adversidade" ou "Lidar com a oposição"</p>
+                </div>
+                <div class="expression-card p-6 mb-6 bg-white rounded-lg shadow-sm">
+                    <p class="text-lg font-semibold text-indigo-700">24. To bring something to fruition</p>
+                    <p class="mt-2"><strong>Scenario:</strong> To successfully complete a project, plan, or idea after a period of development.</p>
+                    <p class="mt-2 text-indigo-900"><strong>Example:</strong> "It took years of hard work, but we were finally able to **bring the project to fruition**."</p>
+                    <p class="mt-2 text-sm text-gray-600"><strong>🇧🇷 Brazilian Portuguese:</strong> "Concretizar" ou "Levar a cabo"</p>
+                </div>
+            </section>
+            <section class="section interactive-card">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Interactive Exercises & Scenarios</h2>
+                <p class="text-gray-700 mb-8">Test your knowledge with these interactive exercises and practice scenarios!</p>
+                <div class="mb-10">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Translation Exercise (Portuguese to English)</h3>
+                    <p class="text-gray-700 mb-4">Translate these common Brazilian Portuguese phrases into their professional English equivalents. Click "Check" to see if you are correct!</p>
+                    <div id="translation-list" class="space-y-4">
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between">
+                            <p class="text-gray-600 md:mb-0 mb-2"><strong>🇧🇷 Portuguese:</strong> Precisamos aprofundar a análise dos números de vendas.</p>
+                            <div class="flex items-center w-full md:w-auto">
+                                <input type="text" id="ans1" class="w-full md:w-64 border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">
+                                <button onclick="checkAnswer(1)" class="ml-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">Check</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between">
+                            <p class="text-gray-600 md:mb-0 mb-2"><strong>🇧🇷 Portuguese:</strong> Vamos detalhar os pormenores do plano.</p>
+                            <div class="flex items-center w-full md:w-auto">
+                                <input type="text" id="ans2" class="w-full md:w-64 border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">
+                                <button onclick="checkAnswer(2)" class="ml-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">Check</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between">
+                            <p class="text-gray-600 md:mb-0 mb-2"><strong>🇧🇷 Portuguese:</strong> Precisamos de uma mudança de paradigma em nossa estratégia.</p>
+                            <div class="flex items-center w-full md:w-auto">
+                                <input type="text" id="ans3" class="w-full md:w-64 border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">
+                                <button onclick="checkAnswer(3)" class="ml-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">Check</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between">
+                            <p class="text-gray-600 md:mb-0 mb-2"><strong>🇧🇷 Portuguese:</strong> A diretoria nos deu sinal verde para o projeto.</p>
+                            <div class="flex items-center w-full md:w-auto">
+                                <input type="text" id="ans4" class="w-full md:w-64 border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">
+                                <button onclick="checkAnswer(4)" class="ml-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">Check</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between">
+                            <p class="text-gray-600 md:mb-0 mb-2"><strong>🇧🇷 Portuguese:</strong> Esse novo produto será um divisor de águas.</p>
+                            <div class="flex items-center w-full md:w-auto">
+                                <input type="text" id="ans5" class="w-full md:w-64 border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">
+                                <button onclick="checkAnswer(5)" class="ml-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">Check</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-10">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Matching Activity (Match the phrase with its meaning)</h3>
+                    <p class="text-gray-700 mb-4">Drag the meaning on the right to the correct phrase on the left.</p>
+                    <div id="matching-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div id="phrases-column" class="flex flex-col space-y-4">
+                        </div>
+                        <div id="meanings-column" class="flex flex-col space-y-4">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-10">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Simulation Scenarios</h3>
+                    <p class="text-gray-700 mb-4">Practice using the expressions in realistic meeting contexts. Read the scenario and then use the provided phrases to form your response.</p>
+                    <div class="p-6 bg-gray-50 rounded-lg border border-gray-200 mb-4">
+                        <h4 class="font-semibold text-lg mb-2 text-gray-900">Scenario 1: Strategic Planning Meeting</h4>
+                        <p class="text-gray-700 mb-3">Your team is developing a new strategy. You need to turn the high-level plan into concrete actions, and you want to ensure the team is inspired and focused on the same goal.</p>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li><strong>To put the plan into practice:</strong> "Our next step is to **operationalize the strategy** by defining key performance indicators."</li>
+                            <li><strong>To inspire the team:</strong> "We must **galvanize the team** behind this new initiative to ensure its success."</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg border border-gray-200 mb-4">
+                        <h4 class="font-semibold text-lg mb-2 text-gray-900">Scenario 2: Project Management Update</h4>
+                        <p class="text-gray-700 mb-3">During a project update, a team member is getting bogged down in minor details. You need to pull the conversation back to the main objective. You also need to confirm that a decision has been made to phase out an older system.</p>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li><strong>To get back to the point:</strong> "Let's not get **in the weeds** on this; what is our primary objective for this quarter?"</li>
+                            <li><strong>To announce a project's end:</strong> "I've been told we will **sunset** the legacy system by the end of the year."</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="font-semibold text-lg mb-2 text-gray-900">Scenario 3: Market Analysis Discussion</h4>
+                        <p class="text-gray-700 mb-3">You are in a meeting to discuss recent market data. You want to see if a new product idea will be successful, and you need to get more detailed information on a specific market segment. You also want to show that you are capable of handling multiple roles.</p>
+                        <ul class="list-disc list-inside text-gray-600">
+                            <li><strong>To test an idea:</strong> "Let's **run it up the flagpole** and see if the marketing team thinks this new product will **gain traction** with our target audience."</li>
+                            <li><strong>To ask for more detail:</strong> "We need to **do a deep dive** into the data from the Southeast region."</li>
+                            <li><strong>To express capability:</strong> "I have the **bandwidth** to take on this research task myself."</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        const translations = {
+            1: "Let's do a deep dive into the sales numbers.",
+            2: "Let's flesh out the details of the plan.",
+            3: "We need a paradigm shift in our strategy.",
+            4: "The board has given us the green light for the project.",
+            5: "This new product will be a game-changer."
+        };
+        function checkAnswer(questionNumber) {
+            const inputElement = document.getElementById(`ans${questionNumber}`);
+            const userAnswer = inputElement.value.trim().toLowerCase().replace(/['".,!?]/g, '');
+            const correctAnswer = translations[questionNumber].toLowerCase().replace(/['".,!?]/g, '');
+            if (userAnswer === correctAnswer) {
+                inputElement.classList.add('correct');
+                inputElement.classList.remove('incorrect');
+                showMessage("Correct! ✅", true);
+            } else {
+                inputElement.classList.add('incorrect');
+                inputElement.classList.remove('correct');
+                showMessage(`Incorrect. The answer is: "${translations[questionNumber]}"`, false);
+            }
+        }
+        const matchingData = [
+            { id: 'phrase1', text: 'To cascade information', meaning: 'To disseminate information from the top down' },
+            { id: 'phrase2', text: 'To sunset a project', meaning: 'To phase out or retire a product or service' },
+            { id: 'phrase3', text: 'To be in the weeds', meaning: 'To be overly focused on minor details' },
+            { id: 'phrase4', text: 'To run it up the flagpole', meaning: 'To present an idea to a superior for feedback' },
+            { id: 'phrase5', text: 'A paradigm shift', meaning: 'A fundamental change in approach or a field' },
+            { id: 'phrase6', text: 'To champion a cause', meaning: 'To actively support and advocate for an idea' },
+            { id: 'phrase7', text: 'To streamline a process', meaning: 'To make a process more efficient by simplifying it' },
+            { id: 'phrase8', text: 'To offload a task', meaning: 'To delegate a task to someone else' }
+        ];
+        const phrasesColumn = document.getElementById('phrases-column');
+        const meaningsColumn = document.getElementById('meanings-column');
+        const shuffledMeanings = [...matchingData].sort(() => Math.random() - 0.5);
+        matchingData.forEach(item => {
+            const phraseEl = document.createElement('div');
+            phraseEl.id = item.id;
+            phraseEl.className = 'phrase p-4 rounded-lg bg-gray-100 flex items-center justify-between shadow-sm';
+            phraseEl.innerHTML = `<span class="font-medium">${item.text}</span>`;
+            phrasesColumn.appendChild(phraseEl);
+        });
+        shuffledMeanings.forEach(item => {
+            const meaningEl = document.createElement('div');
+            meaningEl.id = item.id + '-meaning';
+            meaningEl.className = 'drag-item p-4 rounded-lg bg-gray-200 shadow-sm transition-transform duration-100 ease-in-out';
+            meaningEl.setAttribute('draggable', true);
+            meaningEl.textContent = item.meaning;
+            meaningsColumn.appendChild(meaningEl);
+        });
+        let draggedItem = null;
+        let messageTimeout;
+        const messageBox = document.getElementById('message-box');
+        function showMessage(text, isCorrect) {
+            clearTimeout(messageTimeout);
+            messageBox.textContent = text;
+            messageBox.style.display = 'block';
+            messageBox.className = isCorrect ? 'message-box correct' : 'message-box incorrect';
+            messageTimeout = setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 2000);
+        }
+        document.querySelectorAll('.drag-item').forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                draggedItem = e.target;
+                e.target.classList.add('dragging');
+            });
+            item.addEventListener('dragend', (e) => {
+                e.target.classList.remove('dragging');
+            });
+        });
+        document.querySelectorAll('.phrase').forEach(phrase => {
+            const dropTarget = document.createElement('div');
+            dropTarget.className = 'drop-target h-12 rounded-lg my-2';
+            phrase.parentNode.insertBefore(dropTarget, phrase.nextSibling);
+            dropTarget.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropTarget.classList.add('hovered');
+            });
+            dropTarget.addEventListener('dragleave', (e) => {
+                dropTarget.classList.remove('hovered');
+            });
+            dropTarget.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropTarget.classList.remove('hovered');
+                if (draggedItem) {
+                    const phraseId = phrase.id;
+                    const meaningId = draggedItem.id.replace('-meaning', '');
+                    if (phraseId === meaningId) {
+                        phrase.classList.add('correct');
+                        draggedItem.classList.add('correct');
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'p-4 rounded-lg correct shadow-sm';
+                        wrapper.textContent = draggedItem.textContent;
+                        dropTarget.parentNode.replaceChild(wrapper, dropTarget);
+                        draggedItem.style.display = 'none';
+                        showMessage("Correct Match! ✅", true);
+                    } else {
+                        phrase.classList.add('incorrect');
+                        draggedItem.classList.add('incorrect');
+                        showMessage("Incorrect Match. Try again!", false);
+                        setTimeout(() => {
+                            phrase.classList.remove('incorrect');
+                            draggedItem.classList.remove('incorrect');
+                        }, 1000);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
